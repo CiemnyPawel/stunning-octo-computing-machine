@@ -32,7 +32,7 @@ HOLE_MAP oraz WORST_FIT.
 2.1. Funkcja systemowa HOLE_MAP powinna umożliwiać zdefiniowanie własnej
 funkcji o sygnaturze:
 
-int hole_map( void *buffer, size_t nbytes )
+    int hole_map( void *buffer, size_t nbytes )
 
 która ma za zadanie zwrócić w buforze buffer o rozmiarze nbytes informacje o
 aktualnej zawartości listy wolnych bloków utrzymywanej przez moduł
@@ -56,7 +56,7 @@ zakończenie listy pozycją rozmiar=0.
 elementu z listy wolnych bloków i zdefiniowanie własnej funkcji o
 sygnaturze:
 
-int worst_fit( int w )
+    int worst_fit( int w )
 
 która dla w=1 wymusza implementowany w ramach ćwiczenia algorytm przydziału
 worst fit, natomiast dla w=0 uaktywnia z powrotem standardowy algorytm first
@@ -69,8 +69,8 @@ zawartością pliku
 
 i w pliku tym dodatkowo zaimplementować odpowiednio funkcje:
 
-PUBLIC int do_worst_fit( void );
-PUBLIC int do_hole_map();
+    PUBLIC int do_worst_fit( void );
+    PUBLIC int do_hole_map();
 
 argumenty wejściowe znajdują się w zmiennej globalnej mm_in typu message
 przekazanej przez programy użytkowe w wywołaniu _syscall(). Do przekazywania
