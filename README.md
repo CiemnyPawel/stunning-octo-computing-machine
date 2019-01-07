@@ -62,7 +62,6 @@ która dla w=1 wymusza implementowany w ramach ćwiczenia algorytm przydziału
 worst fit, natomiast dla w=0 uaktywnia z powrotem standardowy algorytm first
 fit. Wartością zwracaną powinno być zawsze 0.
 
-
 3. W celu realizacji zadania należy przede wszystkim zapoznać się z
 zawartością pliku 
 
@@ -90,69 +89,70 @@ Należy stworzyć programy użytkowe t.c, w.c oraz x.c z następującą
 zawartością:
 
 -------------------------------------------------------------
-/* t.c - polecenie t wyswietla liczbe i rozmiary blokow wolnych */
-#include <stdio.h>
-#include <unistd.h>
-#include <lib.h>
-                                                                                
-PUBLIC int hole_map( void *buffer, size_t nbytes)
-{
-	/* ... _syscall(..HOLE_MAP..) ... */
-}
-                                                                                
-int
-main( void )
-{
-        unsigned int    b[1024];
-        unsigned int    *p, a, l;
-        int     res;
-	res = hole_map( b, sizeof( b ) );
-        printf( "[%d]\t", res );
-        p = b;
-        while( *p )
-        {
-                l = *p++;
-                a = *p++; /* tu niewykorzystywane */
-                printf( "%d\t", l );
-        }
-        printf( "\n" );
-        return 0;
-}
+
+    /* t.c - polecenie t wyswietla liczbe i rozmiary blokow wolnych */
+    #include <stdio.h>
+    #include <unistd.h>
+    #include <lib.h>
+                                                                                    
+    PUBLIC int hole_map( void *buffer, size_t nbytes)
+    {
+    	/* ... _syscall(..HOLE_MAP..) ... */
+    }
+                                                                                    
+    int
+    main( void )
+    {
+            unsigned int    b[1024];
+            unsigned int    *p, a, l;
+            int     res;
+    	    res = hole_map( b, sizeof( b ) );
+            printf( "[%d]\t", res );
+            p = b;
+            while( *p )
+            {
+                    l = *p++;
+                    a = *p++; /* tu niewykorzystywane */
+                    printf( "%d\t", l );
+            }
+            printf( "\n" );
+            return 0;
+    }
 -------------------------------------------------------------
-/* w.c - polecenie w przyjmuje jako argument 1 albo 0 */
-/* wlaczajac/wylaczajac algorytm worst fit w systemie Minix */
-#include <stdlib.h>
-#include <unistd.h>
-#include <lib.h>
-
-
-PUBLIC int worst_fit( int w )
-{
-	/* ... _syscall(..WORST_FIT..) ... */
-}
-
-int
-main( int argc, char *argv[] )
-{
-	if( argc < 2 )
-		return 1;
-	worst_fit( atoi( argv[1] ) );
-	return 0;
-}
+    /* w.c - polecenie w przyjmuje jako argument 1 albo 0 */
+    /* wlaczajac/wylaczajac algorytm worst fit w systemie Minix */
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <lib.h>
+    
+    
+    PUBLIC int worst_fit( int w )
+    {
+    	/* ... _syscall(..WORST_FIT..) ... */
+    }
+    
+    int
+    main( int argc, char *argv[] )
+    {
+    	if( argc < 2 )
+    		return 1;
+    	worst_fit( atoi( argv[1] ) );
+    	return 0;
+    }
 -------------------------------------------------------------
-/* x.c - program pomocniczy x, okrojona wersja polecenia sleep */
-/* wykorzystywana do testów */
-#include <stdlib.h>
-#include <unistd.h>
-
-int
-main( int argc, char *argv[] )
-{
-	if( argc < 2 )
-		return 1;
-	sleep( atoi( argv[1] ) );
-	return 0;
-}
+    /* x.c - program pomocniczy x, okrojona wersja polecenia sleep */
+    /* wykorzystywana do testów */
+    #include <stdlib.h>
+    #include <unistd.h>
+    
+    int
+    main( int argc, char *argv[] )
+    {
+    	if( argc < 2 )
+    		return 1;
+    	sleep( atoi( argv[1] ) );
+    	return 0;
+    }
 -------------------------------------------------------------
 
 Po przygotowaniu powyższych poleceń należy zinterpretować rezultat
@@ -160,55 +160,53 @@ działania poniższego skryptu. Do czego służy polecenie chmem (man
 chmem)?
 
 
-#!/bin/sh
-#skrypt do testowania działania funkcji systemowych 
-#HOLE_MAP oraz WORST_FIT
-cc -o t t.c 
-cc -o w w.c
-cc -o x x.c
-chmem =8000 x
-
-echo "-[ std ]----------------------------------------"
-./w 0
-for i in 1 2 3 4 5 6 7 8 9 10
-do
-	./x 10 &
-	./t
-	sleep 1
-done
-for i in 1 2 3 4 5 6 7 8 9 10
-do
-	./t
-	sleep 1
-done
-echo "-[ worst ]--------------------------------------"
-./w 1
-for i in 1 2 3 4 5 6 7 8 9 10
-do
-	./x 10 &
-	./t
-	sleep 1
-done
-for i in 1 2 3 4 5 6 7 8 9 10
-do
-	./t
-	sleep 1
-done
-echo "-[ std ]----------------------------------------"
-./w 0
+    #!/bin/sh
+    # skrypt do testowania działania funkcji systemowych 
+    # HOLE_MAP oraz WORST_FIT
+    cc -o t t.c 
+    cc -o w w.c
+    cc -o x x.c
+    chmem =8000 x
+    
+    echo "-[ std ]----------------------------------------"
+    ./w 0
+    for i in 1 2 3 4 5 6 7 8 9 10
+    do
+    	./x 10 &
+    	./t
+    	sleep 1
+    done
+    for i in 1 2 3 4 5 6 7 8 9 10
+    do
+    	./t
+    	sleep 1
+    done
+    echo "-[ worst ]--------------------------------------"
+    ./w 1
+    for i in 1 2 3 4 5 6 7 8 9 10
+    do
+    	./x 10 &
+    	./t
+    	sleep 1
+    done
+    for i in 1 2 3 4 5 6 7 8 9 10
+    do
+    	./t
+    	sleep 1
+    done
+    echo "-[ std ]----------------------------------------"
+    ./w 0
 
 
 5. Uwagi do realizacji zadania
 
 * lista modyfikowanych plików systemowych:
-
 /usr/src/mm/proto.h
 /usr/src/mm/alloc.c
 /usr/src/mm/table.c
 /usr/include/minix/callnr.h
 
 * lista tworzonych programów użytkowych:
-
 w.c
 t.c
 x.c
