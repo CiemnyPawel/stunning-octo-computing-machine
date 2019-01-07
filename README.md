@@ -106,8 +106,7 @@ main( void )
         unsigned int    b[1024];
         unsigned int    *p, a, l;
         int     res;
-
-		res = hole_map( b, sizeof( b ) );
+	res = hole_map( b, sizeof( b ) );
         printf( "[%d]\t", res );
         p = b;
         while( *p )
